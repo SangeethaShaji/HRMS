@@ -1,0 +1,133 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@model HRMS.Models.AddEmployeView
+
+
+<h1>Registration Form</h1>
+<form method="post" asp-action="Add">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+<div class="mt-3">
+    <label class="control-label" asp-for="Name"></label>
+    <input class="form-control" asp-for="Name"/>
+    <span asp-validation-for="Name" class="text-danger"></span>
+</div>
+
+
+<div class="mt-3">
+    <label class="control-label">Email</label>
+    <input class="form-control" asp-for="Email" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+
+</div>
+
+<div class="mt-3">
+    <label class="form-label">Address</label>
+    <input type="text" class="form-control" asp-for="Address"/>
+        <span asp-validation-for="Address" class="text-danger"></span>
+
+</div>
+
+
+<div class="mt-3">
+    <input type="radio" id="male" name="gender" value="male" asp-for="Gender">
+    <label for="male">Male</label>
+    <input type="radio" id="female" name="gender" value="female" asp-for="Gender">
+    <label for="female">Female</label>
+    <input type="radio" id="other" name="gender" value="other" asp-for="Gender">
+    <label for="other">Other</label>
+</div>
+
+<div class="mt-3">
+        <label asp-for="Phone" class="control-label"></label>
+        <input type="text" class="form-control" name="Phone" id="Phone" rows="2"></input>
+        <span asp-validation-for="Phone" class="text-danger"></span> 
+        <span id="error-message" class="text-danger"></span>
+
+</div>
+
+@* <div class="mt-3">
+    <label class="form-label">Designation</label>
+    <input type="text" class="form-control" asp-for="Designation"/>
+        <span asp-validation-for="Designation" class="text-danger"></span>
+
+</div>
+ *@
+    <div class="mt-3">
+        <label asp-for="Designation" class="control-label"></label><br />
+        <select asp-for="Designation" class="form-control" rows="2">
+            <option value="Designation">---SELECT Designation----</option>
+            <option value="Developer">Developer</option>
+            <option value="Tester">Tester</option>
+            <option value="Finance">Finance</option>
+
+        </select>
+    </div>
+<div class="mt-3">
+    <label asp-for="Date_Of_Join">Date of Joining:</label>
+    @* <input type="date" id="dateOfJoining" name="dateOfJoining" asp-for="Date_Of_Join"> *@
+        <input type="date" asp-for="Date_Of_Join" id="datePicker" name="SelectedDate"class="form-control" rows="2" min="@DateTime.Today.ToString("yyyy-MM-dd")"></input>
+        <span asp-validation-for="Date_Of_Join" class="text-danger"></span>
+        <span id="date-error-message" class="text-danger"></span>
+
+</div>
+
+<div class="mt-3">
+    <label class="form-label">Password</label>
+    <input type="password" class="form-control" asp-for="password" />
+        <span asp-validation-for="password" class="text-danger"></span>
+
+</div>
+
+<div class="mt-3">
+    <button type="submit" asp-controller="Employe" asp-action="Add" class="btn btn-primary">Save</button>
+</div>
+</form>
+
+@section Scripts {
+  
+ 
+     
+ <script>
+
+        document.getElementById("datePicker").addEventListener("change", function () {
+            var selectedDate = new Date(this.value);
+            var currentDate = new Date();
+
+            var errorMessage = document.getElementById("date-error-message");
+            errorMessage.textContent = "";
+
+            // Check if selected date is before the current date
+            if (selectedDate < currentDate) {
+                errorMessage.textContent = "Selected date must be after the current date";
+            }
+        });
+
+        document.getElementById("Phone").addEventListener("input", function() {
+            var Phone = this.value;
+            var errorMessage = document.getElementById("error-message");
+
+
+            errorMessage.textContent = "";
+
+
+            var isValid = /^\d{10}$/.test(Phone);
+
+
+            if (!isValid) {
+                // errorMessage.textContent = "Phone number must contain only numeric digits";
+                if (!/^\d+$/.test(Phone)) {
+                    errorMessage.textContent = "Phone number must contain only numeric digits";
+                } else {
+                    errorMessage.textContent = "Phone number must contain exactly 10 digits";
+                }
+            }
+        });
+
+
+    </script>
+   
+    
+}
